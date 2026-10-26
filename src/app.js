@@ -1,8 +1,8 @@
 import express from 'express';
 
 import healthRoutes from './routes/healthRoutes.js';
-import notFoundHandler from './middleware/notFoundHandler.js';
-import errorHandler from './middleware/errorHandler.js';
+import notFoundHandler from './middlewares/notFoundHandler.js';
+import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
 
