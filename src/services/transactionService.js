@@ -2,6 +2,8 @@ import categoryRepository from '../repositories/categoryRepository.js';
 import transactionRepository from '../repositories/transactionRepository.js';
 import HttpError from '../utils/httpError.js';
 
+import { toCents } from '../utils/money.js';
+
 const VALID_TYPES = ['income', 'expense'];
 
 function validateTransactionData(transactionData) {
@@ -37,6 +39,16 @@ function validateTransactionData(transactionData) {
       400,
       'INVALID_TRANSACTION_AMOUNT',
       'Transaction amount must be a finite number greater than zero.'
+    );
+  }
+
+    try {
+      toCents(transactionData.amount);
+    } catch {
+    throw new HttpError(
+      400,
+      'INVALID_TRANSACTION_AMOUNT',
+      'Transaction amount must be a valid monetary value with no more than two decimal places.'
     );
   }
 
@@ -125,7 +137,7 @@ function createTransaction(transactionData) {
 
   const normalizedData = {
     description: transactionData.description.trim(),
-    amount: transactionData.amount,
+    amountInCents: transactionData.amount,
     type: transactionData.type,
     categoryId: transactionData.categoryId,
     date: transactionData.date
@@ -193,6 +205,14 @@ function updateTransaction(id, transactionData) {
   validateTransactionData(updatedData);
 
   updatedData.description = updatedData.description.trim();
+
+  const normalizedData = {
+    description: updatedData.description,
+    amountInCents: toCents(updatedData.amount),
+    type: updatedData.type,
+    categoryId: updatedData.categoryId,
+    date: updatedData.date
+  };
 
   ensureCategoryMatchesType(
     updatedData.categoryId,
