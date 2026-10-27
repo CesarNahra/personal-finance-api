@@ -235,8 +235,9 @@ function createTransaction(transactionData) {
   return transactionRepository.create(normalizedData);
 }
 
-function getTransactions() {
-  return transactionRepository.findAll();
+function getTransactions(filters = {}) {
+  validateTransactionFilters(filters);
+  return transactionRepository.findAll(filters);
 }
 
 function getTransactionById(id) {
