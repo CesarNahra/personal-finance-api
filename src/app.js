@@ -4,6 +4,7 @@ import healthRoutes from './routes/healthRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import transactionRoutes from './routes/transactionRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
+import documentationRoutes from './routes/documentationRoutes.js';
 
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
@@ -16,6 +17,7 @@ app.use('/api', healthRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api-docs', documentationRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
