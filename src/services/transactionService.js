@@ -96,6 +96,90 @@ function isValidDate(dateString) {
   );
 }
 
+function validateTransactionFilters(filters) {
+  const allowedFields = [
+    'type',
+    'categoryId',
+    'startDate',
+    'endDate'
+  ];
+
+  for (const field of Object.keys(filters)) {
+    if (!allowedFields.includes(field)) {
+      throw new HttpError(
+        400,
+        'INVALID_TRANSACTION_FILTER',
+        `Filter "${field}" is not supported.`
+      );
+    }
+  }
+
+  if (
+    filters.type !== undefined &&
+    !VALID_TYPES.includes(filters.type)
+  ) {
+    throw new HttpError(
+      400,
+      'INVALID_TRANSACTION_TYPE',
+      'Transaction type must be either income or expense.'
+    );
+  }
+
+  if (
+    filters.categoryId !== undefined &&
+    (
+      typeof filters.categoryId !== 'string' ||
+      filters.categoryId.trim().length === 0
+    )
+  ) {
+    throw new HttpError(
+      400,
+      'INVALID_TRANSACTION_CATEGORY',
+      'Category ID filter must be a non-empty string.'
+    );
+  }
+
+  if (
+    filters.startDate !== undefined &&
+    (
+      typeof filters.startDate !== 'string' ||
+      !isValidDate(filters.startDate)
+    )
+  ) {
+    throw new HttpError(
+      400,
+      'INVALID_START_DATE',
+      'Start date must be a valid date in YYYY-MM-DD format.'
+    );
+  }
+
+  if (
+    filters.endDate !== undefined &&
+    (
+      typeof filters.endDate !== 'string' ||
+      !isValidDate(filters.endDate)
+    )
+  ) {
+    throw new HttpError(
+      400,
+      'INVALID_END_DATE',
+      'End date must be a valid date in YYYY-MM-DD format.'
+    );
+  }
+
+  if (
+    filters.startDate !== undefined &&
+    filters.endDate !== undefined &&
+    filters.startDate > filters.endDate
+  ) {
+    throw new HttpError(
+      400,
+      'INVALID_DATE_RANGE',
+      'Start date must be earlier than or equal to end date.'
+    );
+  }
+}
+
 function ensureTransactionExists(id) {
   const transaction = transactionRepository.findById(id);
 
