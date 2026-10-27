@@ -8,7 +8,7 @@ import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ strict: false }));
 
 app.use('/api', healthRoutes);
 app.use('/api/categories', categoryRoutes);
