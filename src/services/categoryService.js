@@ -1,4 +1,6 @@
 import categoryRepository from '../repositories/categoryRepository.js';
+import transactionRepository from '../repositories/transactionRepository.js';
+
 import HttpError from '../utils/httpError.js';
 
 const VALID_TYPES = ['income', 'expense'];
@@ -139,7 +141,17 @@ function updateCategory(id, categoryData) {
 function deleteCategory(id) {
   ensureCategoryExists(id);
 
-  // Category usage checks will be added when transactions are implemented.
+  const relatedTransactions =
+    transactionRepository.findByCategoryId(id);
+
+  if (relatedTransactions.length > 0) {
+    throw new HttpError(
+      409,
+      'CATEGORY_IN_USE',
+      'Category cannot be deleted while it is associated with transactions.'
+    );
+  }
+
   categoryRepository.remove(id);
 }
 
