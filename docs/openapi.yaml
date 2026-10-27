@@ -1,0 +1,43 @@
+openapi: 3.0.3
+
+info:
+  title: Personal Finance API
+  version: 1.0.0
+  description: |
+    A REST API for managing personal finances.
+    It supports categories, financial transactions,
+    transaction filtering, and financial reports.
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+tags:
+  - name: Health
+    description: API health checks
+  - name: Categories
+    description: Category management
+  - name: Transactions
+    description: Financial transaction management
+  - name: Reports
+    description: Financial reports
+
+paths:
+  /api/health:
+    get:
+      tags:
+        - Health
+      summary: Check API health
+      description: Checks whether the API is responding.
+      operationId: getHealth
+      responses:
+        '200':
+          description: API is operational
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
