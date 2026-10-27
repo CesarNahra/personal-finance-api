@@ -14,7 +14,9 @@ function createTransaction(req, res, next) {
 
 function getTransactions(req, res, next) {
   try {
-    const transactions = transactionService.getTransactions();
+    const transactions = transactionService.getTransactions(
+      req.query
+    );
 
     return res.status(200).json({
       data: transactions
