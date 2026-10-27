@@ -5,19 +5,21 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-  "start": "node src/server.js",
-  "dev": "node --watch src/server.js",
-  "test": "node --test"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
   },
   "keywords": [
-  "nodejs",
-  "express",
-  "rest-api",
-  "personal-finance"
+    "nodejs",
+    "express",
+    "rest-api",
+    "personal-finance"
   ],
   "dependencies": {
     "dotenv": "^18.0.9",
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "swagger-ui-express": "^5.0.1",
+    "yaml": "^2.9.1"
   },
   "author": "",
   "license": "MIT"
