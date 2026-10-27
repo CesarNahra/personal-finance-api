@@ -5,10 +5,10 @@ const VALID_TYPES = ['income', 'expense'];
 
 function validateCategoryData(categoryData) {
     if (
-    !categoryData ||
-    typeof categoryData !== 'object' ||
-    Array.isArray(categoryData)
-  ) {
+      !categoryData ||
+      typeof categoryData !== 'object' ||
+      Array.isArray(categoryData)
+    ) {
     throw new HttpError(
       400,
       'INVALID_CATEGORY_DATA',
