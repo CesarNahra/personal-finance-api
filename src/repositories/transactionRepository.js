@@ -1,6 +1,20 @@
 import { randomUUID } from 'node:crypto';
 
+import { fromCents } from '../utils/money.js';
+
 const transactions = new Map();
+
+function toPublicTransaction(transaction) {
+  const {
+    amountInCents,
+    ...transactionData
+  } = transaction;
+
+  return {
+    ...transactionData,
+    amount: fromCents(amountInCents)
+  };
+}
 
 function create(transactionData) {
   const now = new Date().toISOString();
@@ -8,7 +22,7 @@ function create(transactionData) {
   const transaction = {
     id: randomUUID(),
     description: transactionData.description,
-    amount: transactionData.amount,
+    amountInCents: transactionData.amountInCents,
     type: transactionData.type,
     categoryId: transactionData.categoryId,
     date: transactionData.date,
