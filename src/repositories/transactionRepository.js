@@ -35,8 +35,38 @@ function create(transactionData) {
   return toPublicTransaction(transaction);
 }
 
-function findAll() {
-  return Array.from(transactions.values(), toPublicTransaction);
+function findAll(filters = {}) {
+  const {
+    type,
+    categoryId,
+    startDate,
+    endDate
+  } = filters;
+
+  return Array.from(transactions.values())
+    .filter((transaction) => {
+      if (type && transaction.type !== type) {
+        return false;
+      }
+
+      if (
+        categoryId &&
+        transaction.categoryId !== categoryId
+      ) {
+        return false;
+      }
+
+      if (startDate && transaction.date < startDate) {
+        return false;
+      }
+
+      if (endDate && transaction.date > endDate) {
+        return false;
+      }
+
+      return true;
+    })
+    .map(toPublicTransaction);
 }
 
 function findById(id) {
