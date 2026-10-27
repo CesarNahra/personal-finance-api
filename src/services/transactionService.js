@@ -137,7 +137,7 @@ function createTransaction(transactionData) {
 
   const normalizedData = {
     description: transactionData.description.trim(),
-    amountInCents: transactionData.amount,
+    amountInCents: toCents(transactionData.amount),
     type: transactionData.type,
     categoryId: transactionData.categoryId,
     date: transactionData.date
@@ -219,7 +219,7 @@ function updateTransaction(id, transactionData) {
     updatedData.type
   );
 
-  return transactionRepository.update(id, updatedData);
+  return transactionRepository.update(id, normalizedData);
 }
 
 function deleteTransaction(id) {

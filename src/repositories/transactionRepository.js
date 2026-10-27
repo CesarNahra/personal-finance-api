@@ -32,19 +32,21 @@ function create(transactionData) {
 
   transactions.set(transaction.id, transaction);
 
-  return transaction;
+  return toPublicTransaction(transaction);
 }
 
 function findAll() {
-  return Array.from(transactions.values());
+  return Array.from(transactions.values(), toPublicTransaction);
 }
 
 function findById(id) {
-  return transactions.get(id) || null;
+  const transaction = transactions.get(id);
+
+  return transaction ? toPublicTransaction(transaction) : null;
 }
 
 function findByCategoryId(categoryId) {
-  return Array.from(transactions.values()).filter(
+  return Array.from(transactions.values(), toPublicTransaction).filter(
     (transaction) => transaction.categoryId === categoryId
   );
 }
@@ -66,7 +68,7 @@ function update(id, transactionData) {
 
   transactions.set(id, updatedTransaction);
 
-  return updatedTransaction;
+  return toPublicTransaction(updatedTransaction);
 }
 
 function remove(id) {

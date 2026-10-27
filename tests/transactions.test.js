@@ -212,7 +212,17 @@ test('Invalid transaction data should return HTTP 400', async () => {
     {
       body: null,
       expectedCode: 'INVALID_TRANSACTION_DATA'
-    }
+    },
+    {
+      body: {
+        description: 'Fractional cent amount',
+        amount: 10.999,
+        type: 'expense',
+        categoryId: category.id,
+        date: '2026-10-27'
+      },
+      expectedCode: 'INVALID_TRANSACTION_AMOUNT'
+    },
   ];
 
   for (const invalidCase of invalidCases) {
